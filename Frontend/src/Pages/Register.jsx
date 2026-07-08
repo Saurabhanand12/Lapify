@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { setAuthUser } from '../Redux/authSlice';
 
 
 const Register = () => {
-  const {userProfile} = useSelector(store => store.auth);
+  const {userProfile,user} = useSelector(store => store.auth);
   const [input , setInput] = useState({
     username : "",
     email : "",
@@ -15,6 +15,7 @@ const Register = () => {
   });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const changeEventHandler = (e) =>{
     setInput({...input,[e.target.name]:e.target.value});

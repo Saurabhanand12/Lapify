@@ -32,7 +32,6 @@ const Login = () => {
       });
       if(res.data.success){
         dispatch(setAuthUser(res.data.user));
-        console.log("Dispatching:", res.data.user);
         nevigate('/');
         toast.success(res.data.message, { style: { background: "white", borderRadius: "10px" } });
         setInput({
@@ -95,11 +94,7 @@ const Login = () => {
           className="w-full p-3 mb-4 border rounded-full outline-none focus:ring-2 focus:ring-blue-400"
         />
 
-        <div className="flex justify-between items-center mb-6 text-sm">
-          <label className="flex items-center gap-2">
-            <input type="checkbox" />
-            Remember me
-          </label>
+        {/* <div className="flex justify-end mb-6 text-sm">
 
           <a
             href="/forgot-password"
@@ -107,11 +102,11 @@ const Login = () => {
           >
             Forgot Password?
           </a>
-        </div>
+        </div> */}
 
         <button
           type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-full text-lg transition"
+          className="w-full bg-blue-500 text-white py-3 rounded text-lg   hover:bg-blue-600 rounded-full"
         >
           Login
         </button>

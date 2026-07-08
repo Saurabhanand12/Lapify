@@ -13,35 +13,46 @@ import Compareform from './Pages/Compareform.jsx';
 import Profile from './Pages/Profile.jsx';
 import { Toaster } from 'sonner';
 import Changepassword from './Pages/Changepassword.jsx';
+import Protected from './Components/Protected.jsx';
+// import ForgotPassword from './Pages/Forgetpassword.jsx';
+// import ResetPassword from './Pages/Resetpassword.jsx';
 
 const browserRouter = createBrowserRouter([
   {
     path:'/',
-    element:<MainLayout/>,
+    element:<Protected><MainLayout/></Protected>,
   },
   {
     path:'/Predict',
-    element:<Predictionlayout/>,
+    element:<Protected><Predictionlayout/></Protected>,
   },
   {
     path:'/login',
     element:<Login/>
   },
+  // {
+  //   path: "/forgot-password",
+  //   element: <ForgotPassword />,
+  // },
+  // {
+  //   path: "/reset-password/:token",
+  //   element: <ResetPassword />,
+  // },
   {
     path:'/PricePrediction',
-    element:<PricePred/>
+    element:<Protected><PricePred/></Protected>
   },
   {
     path:'/Recommendation',
-    element:<Recommform/>
+    element:<Protected><Recommform/></Protected>
   },
   {
     path:'/Compare',
-    element:<Comparelayout />
+    element:<Protected><Comparelayout /></Protected>
   },
   {
     path : '/Recommend',
-    element:<Recommandlayout/>
+    element:<Protected><Recommandlayout/></Protected>
   },
   {
     path:'/register',
@@ -49,19 +60,19 @@ const browserRouter = createBrowserRouter([
   },
   {
     path:'/CompareLaptop',
-    element:<Compareform/>
+    element:<Protected><Compareform/></Protected>
   },
   {
     path:'/Profile',
-    element:<Profile/>
+    element:<Protected><Profile/></Protected>
   },
   {
     path:'/EditProfile',
-    element:<Editprofile/>
+    element:<Protected><Editprofile/></Protected>
   },
   {
     path:'/changepassword',
-    element:<Changepassword/>
+    element:<Protected><Changepassword/></Protected>
   }
 ])
 

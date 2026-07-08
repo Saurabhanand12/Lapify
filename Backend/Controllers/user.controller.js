@@ -4,6 +4,7 @@ import usermodel from '../Models/user.model.js';
 import jwt from 'jsonwebtoken';
 import getdatauri from '../Utils/datauri.js';
 import cloudinary from '../Utils/cloudinary.js'
+// import sendEmail from "../Utils/SendEmail.js";
 
 //// Create User Account
 export const register = async (req, res) => {
@@ -113,70 +114,99 @@ export const login = async (req, res) => {
 }
 
 //// Forget password 
-export const forgetpassword = async (req, res) => {
-    try {
-        const { email } = req.body;
+// export const forgetpassword = async (req, res) => {
+//   try {
+//     const { email } = req.body;
 
-        const user = await usermodel.findOne({ email });
+//     const user = await usermodel.findOne({ email });
 
-        if (!user) {
-            return res.status(400).json({
-                message: "Email not found",
-                success: false,
-            });
-        }
+//     if (!user) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Email not found",
+//       });
+//     }
 
-        // generate token
-        const token = crypto.randomBytes(32).toString("hex");
+//     const token = crypto.randomBytes(32).toString("hex");
 
-        user.resetPasswordToken = token;
+//     const hashedToken = crypto
+//       .createHash("sha256")
+//       .update(token)
+//       .digest("hex");
 
-        await user.save();
+//     user.resetPasswordToken = hashedToken;
+//     user.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
 
-        res.status(200).json({
-            message: "Reset link generated",
-            success: true,
-            resetLink: `http://localhost:5173/reset-password/${token}`
-        });
+//     await user.save();
 
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: "Server Error", success: false });
-    }
-};
+//     const resetLink = `http://localhost:5173/reset-password/${token}`;
+
+//     const html = `
+//       <h2>Reset Password</h2>
+//       <p>Click the link below to reset your password:</p>
+//       <a href="${resetLink}">Reset Password</a>
+//       <p>This link expires in 15 minutes.</p>
+//     `;
+
+//     await sendEmail(user.email, "Reset Password", html);
+
+//     res.status(200).json({
+//       success: true,
+//       message: "Password reset link sent to your email.",
+//     });
+
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({
+//       success: false,
+//       message: "Server Error",
+//     });
+//   }
+// };
 
 //// Reset password 
-export const resetpassword = async (req, res) => {
-    try {
-        const { password } = req.body;
-        const { token } = req.params;
+// export const resetpassword = async (req, res) => {
+//     try {
+//         const { password } = req.body;
+//         const { token } = req.params;
 
-        const user = await usermodel.findOne({ resetPasswordToken: token });
+//         const hashedToken = crypto
+//             .createHash("sha256")
+//             .update(token)
+//             .digest("hex");
 
-        if (!user) {
-            return res.status(400).json({
-                message: "Invalid Token",
-                success: false,
-            });
-        }
+//         const user = await usermodel.findOne({
+//             resetPasswordToken: hashedToken,
+//             resetPasswordExpire: { $gt: Date.now() },
+//         });
 
-        const hashpassword = await bcrypt.hash(password, 10);
+//         if (!user) {
+//             return res.status(400).json({
+//                 success: false,
+//                 message: "Invalid or Expired Token",
+//             });
+//         }
 
-        user.password = hashpassword;
-        user.resetPasswordToken = undefined;
+//         const hashpassword = await bcrypt.hash(password, 10);
 
-        await user.save();
+//         user.password = hashpassword;
+//         user.resetPasswordToken = undefined;
+//         user.resetPasswordExpire = undefined;
 
-        res.status(200).json({
-            message: "Password reset successfully",
-            success: true,
-        });
+//         await user.save();
 
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: "Server Error", success: false });
-    }
-};
+//         res.status(200).json({
+//             success: true,
+//             message: "Password reset successfully",
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).json({
+//             success: false,
+//             message: "Server Error",
+//         });
+//     }
+// };
 
 ////// Change Password 
 export const changepassword = async (req, res) => {
